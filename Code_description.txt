@@ -1,0 +1,34 @@
+Assignment-3
+
+Problem Statement:
+Perform direct RSA and optimized RSA, then calculate the time differece between direct RSA decyption and optimized RSA decryption.
+
+Solution:
+
+1.Generate p,q prime numbers randomly
+2.Calculate N=p*q and phi=(p-1)*(q-1)
+3.Select e such that it is co-prime to phi
+4.Calculate d which is inverse of e w.r.t phi
+5.We have public key:(N,e) and private key:(p,q,d)
+6.Calculating xp,xq required for optimized decryption, they are irrespective of message m, so they can be calculated at once
+  i.Finding xp,xq
+    1.Calculate p_inverse w.r.t q and q_inverse w.r.t p
+    2.Calculate xp = q*(q_inverse w.r.t p)
+    3.Calculate xq = p*(p_inverse w.r.t q)
+
+I.Encyption
+  Encyption is same for direct and optimized RSA
+  c = pow(m,e)%N
+
+II.Decryption
+  a.Direct
+    m = pow(c,d)%N
+
+  b.Optimized
+    m = ((xp*vp) + (xq*vq))%N
+    vp,vq are message dependent so they have to be calculated for each decryption
+    ii.Finding vp,vq
+       1.Calculate c1 = c%p, c2=c%q
+       2.Calculate d1 = d%(p-1), d2 = d%(q-1)
+       3.Calculate vp = pow(c1,d1)%p
+       4.Calculate vq = pow(c2,d2)%q
